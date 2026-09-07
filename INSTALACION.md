@@ -33,10 +33,14 @@ Esta guía te ayudará a configurar el proyecto completo en un nuevo PC.
 ```bash
 # Si usas Git
 git clone <url-del-repositorio>
-cd backendFastApi
+cd "gestion de calidad"
 
-# O descargar el ZIP y extraerlo
+# Encontrarás dos subdirectorios principales:
+# - backend-fastapi/  (API REST, Python, FastAPI)
+# - front-react/      (Frontend SPA, React, TypeScript, Vite)
 ```
+
+> 💡 **¿Buscas desplegar en producción (Vercel + Render + Cloud DB)?** Consulta la [Guía de Despliegue en Producción](DESPLIEGUE.md).
 
 ---
 
@@ -57,10 +61,10 @@ GRANT ALL PRIVILEGES ON DATABASE calidad_db TO calidad_user;
 
 #### 2.2. Configurar Variables de Entorno
 
-Crear archivo `.env` en la carpeta `back/`:
+Crear archivo `.env` en la carpeta `backend-fastapi/`:
 
 ```bash
-cd back
+cd backend-fastapi
 ```
 
 Crear archivo `.env` con el siguiente contenido:
@@ -88,7 +92,7 @@ CORS_ORIGINS=http://localhost:5173,http://localhost:3000
 #### 2.3. Crear Entorno Virtual de Python
 
 ```bash
-# En la carpeta back/
+# En la carpeta backend-fastapi/
 python -m venv venv
 
 # Activar el entorno virtual
@@ -132,7 +136,7 @@ python -m app.db.seed_data
 
 ```bash
 # Ir a la carpeta del frontend
-cd ../front
+cd ../front-react
 
 # Instalar dependencias
 npm install
@@ -140,7 +144,7 @@ npm install
 
 #### 3.2. Configurar Variables de Entorno del Frontend
 
-Crear archivo `.env` en la carpeta `front/`:
+Crear archivo `.env` en la carpeta `front-react/`:
 
 ```env
 # URL del backend (asegúrate que termine en /api/v1)
@@ -162,7 +166,7 @@ VITE_SUPABASE_ANON_KEY=tu_supabase_key
 #### Terminal 1 - Backend:
 
 ```bash
-cd back
+cd backend-fastapi
 source venv/bin/activate  # En Windows: venv\Scripts\activate
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
@@ -173,7 +177,7 @@ El backend estará disponible en: http://localhost:8000
 #### Terminal 2 - Frontend:
 
 ```bash
-cd front
+cd front-react
 npm run dev
 ```
 
@@ -190,10 +194,10 @@ Puedes crear scripts para facilitar el inicio:
 ```batch
 @echo off
 echo Iniciando Backend...
-start cmd /k "cd back && venv\Scripts\activate && uvicorn app.main:app --reload"
+start cmd /k "cd backend-fastapi && venv\Scripts\activate && uvicorn app.main:app --reload"
 
 echo Iniciando Frontend...
-start cmd /k "cd front && npm run dev"
+start cmd /k "cd front-react && npm run dev"
 
 echo Sistema iniciado!
 ```
@@ -204,13 +208,13 @@ echo Sistema iniciado!
 #!/bin/bash
 
 # Iniciar backend en segundo plano
-cd back
+cd backend-fastapi
 source venv/bin/activate
 uvicorn app.main:app --reload &
 BACKEND_PID=$!
 
 # Iniciar frontend
-cd ../front
+cd ../front-react
 npm run dev &
 FRONTEND_PID=$!
 
@@ -241,8 +245,8 @@ Si ejecutaste el script `create_users.py`, tendrás estos usuarios:
 ### Error: "No module named 'app'"
 
 ```bash
-# Asegúrate de estar en la carpeta back/ y tener el entorno virtual activado
-cd back
+# Asegúrate de estar en la carpeta backend-fastapi/ y tener el entorno virtual activado
+cd backend-fastapi
 source venv/bin/activate  # Windows: venv\Scripts\activate
 ```
 
@@ -277,8 +281,8 @@ npm install
 ## 📚 Estructura del Proyecto
 
 ```
-backendFastApi/
-├── back/                    # Backend (FastAPI)
+gestion de calidad/
+├── backend-fastapi/         # Backend (FastAPI)
 │   ├── app/
 │   │   ├── api/            # Endpoints de la API
 │   │   ├── models/         # Modelos de base de datos
@@ -289,7 +293,7 @@ backendFastApi/
 │   ├── requirements.txt    # Dependencias Python
 │   └── .env                # Variables de entorno
 │
-└── front/                   # Frontend (React + Vite)
+└── front-react/             # Frontend (React + Vite)
     ├── src/
     │   ├── components/     # Componentes React
     │   ├── pages/          # Páginas
